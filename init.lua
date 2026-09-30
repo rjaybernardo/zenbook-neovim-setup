@@ -37,11 +37,13 @@ opt.swapfile = false
 -- Visual improvements
 vim.opt.guicursor = "n-v-c-i:block"
 opt.cursorline = true
+vim.o.winborder = "rounded"
 
 -- Prevent unnecessary provider initialization
 vim.g.loaded_node_provider = 0
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
 
 -- Let vim-tmux-navigator handle mappings
 vim.g.tmux_navigator_no_mappings = 1
@@ -63,7 +65,7 @@ vim.filetype.add({
 -- ==========================================================================
 
 local plugins = {
-	"https://github.com/catppuccin/nvim",
+	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 	"https://github.com/stevearc/oil.nvim",
 
 	-- Neo-tree
@@ -79,8 +81,8 @@ local plugins = {
 
 	-- LSP
 	"https://github.com/neovim/nvim-lspconfig",
-	"https://github.com/williamboman/mason.nvim",
-	"https://github.com/williamboman/mason-lspconfig.nvim",
+	"https://github.com/mason-org/mason.nvim",
+	"https://github.com/mason-org/mason-lspconfig.nvim",
 
 	-- Treesitter
 	"https://github.com/nvim-treesitter/nvim-treesitter",
@@ -101,7 +103,7 @@ local plugins = {
 	"https://git.barrettruth.com/barrettruth/live-server.nvim",
 
 	-- Mini
-	"https://github.com/echasnovski/mini.nvim",
+	"https://github.com/nvim-mini/mini.nvim",
 
 	-- Completion
 	"https://github.com/hrsh7th/nvim-cmp",
@@ -114,6 +116,30 @@ local plugins = {
 	"https://github.com/SmiteshP/nvim-navic",
 	"https://github.com/folke/which-key.nvim",
 }
+
+-- Keep nvim-treesitter parsers in sync with plugin updates.
+vim.api.nvim_create_autocmd("PackChanged", {
+	group = vim.api.nvim_create_augroup("NvimTreesitterUpdate", {
+		clear = true,
+	}),
+	callback = function(ev)
+		local data = ev.data
+		if not data or not data.spec then
+			return
+		end
+
+		local name = data.spec.name
+		local kind = data.kind
+
+		if name == "nvim-treesitter" and (kind == "install" or kind == "update") then
+			if not data.active then
+				vim.cmd.packadd("nvim-treesitter")
+			end
+
+			vim.cmd("TSUpdate")
+		end
+	end,
+})
 
 vim.pack.add(plugins)
 
@@ -130,7 +156,16 @@ end
 
 local has_mini_comment, mini_comment = pcall(require, "mini.comment")
 if has_mini_comment then
-	mini_comment.setup()
+	mini_comment.setup({
+		-- Use non-overlapping mappings so which-key does not report
+		-- the default `gc` / `gcc` prefix relationship.
+		mappings = {
+			comment = "gC",
+			comment_line = "gL",
+			comment_visual = "gC",
+			textobject = "gT",
+		},
+	})
 end
 
 local has_mini_pairs, mini_pairs = pcall(require, "mini.pairs")
@@ -309,6 +344,7 @@ if has_ts then
 		"javascript",
 		"typescript",
 		"tsx",
+		"prisma",
 
 		"html",
 		"css",
@@ -343,6 +379,7 @@ if has_ts then
 			"typescript",
 			"typescriptreact",
 			"javascriptreact",
+			"prisma",
 
 			"html",
 			"css",
@@ -569,7 +606,7 @@ if has_conform then
 
 			return {
 				timeout_ms = 2000,
-				lsp_fallback = true,
+				lsp_format = "fallback",
 			}
 		end,
 	})
@@ -626,6 +663,57 @@ if has_luasnip then
 				"const {} = ({}) => {{\n  {}\n}};",
 				{
 					i(1, "fnName"),
+					i(2, "args"),
+					i(0),
+				}
+			)
+		),
+
+		-- Export function
+		s(
+			"ef",
+			fmt(
+				"export function {}({}) {{\n  {}\n}}",
+				{
+					i(1, "functionName"),
+					i(2, "args"),
+					i(0),
+				}
+			)
+		),
+
+		-- Export const arrow function
+		s(
+			"eaf",
+			fmt(
+				"export const {} = ({}) => {{\n  {}\n}};",
+				{
+					i(1, "functionName"),
+					i(2, "args"),
+					i(0),
+				}
+			)
+		),
+
+		-- Export const
+		s(
+			"ec",
+			fmt(
+				"export const {} = {};",
+				{
+					i(1, "name"),
+					i(0, "value"),
+				}
+			)
+		),
+
+		-- Export default function
+		s(
+			"edf",
+			fmt(
+				"export default function {}({}) {{\n  {}\n}}",
+				{
+					i(1, "functionName"),
 					i(2, "args"),
 					i(0),
 				}
@@ -748,16 +836,6 @@ end
 -- GENERAL KEYMAPS
 -- ==========================================================================
 
-vim.keymap.set(
-	"n",
-	"<leader>u",
-	"<Nop>",
-	{
-		desc = "UI Toggles Group",
-	}
-)
-
-
 -- ==========================================================================
 -- LIVE SERVER
 -- ==========================================================================
@@ -795,7 +873,7 @@ vim.keymap.set(
 )
 
 vim.keymap.set(
-	{ "n", "i", "t" },
+	{ "n", "t" },
 	"<C-j>",
 	"<cmd>TmuxNavigateDown<cr>",
 	{
@@ -804,7 +882,7 @@ vim.keymap.set(
 )
 
 vim.keymap.set(
-	{ "n", "i", "t" },
+	{ "n", "t" },
 	"<C-k>",
 	"<cmd>TmuxNavigateUp<cr>",
 	{
@@ -1062,15 +1140,15 @@ vim.keymap.set(
 
 vim.keymap.set(
 	"n",
-	"<leader>f",
+	"<leader>=",
 	function()
 		require("conform").format({
 			async = true,
-			lsp_fallback = true,
+			lsp_format = "fallback",
 		})
 	end,
 	{
-		desc = "Format current file tab",
+		desc = "Format current file",
 	}
 )
 
@@ -1310,6 +1388,7 @@ if has_cmp then
 				name = "buffer",
 				priority = 250,
 			},
+
 		}),
 	})
 end
@@ -1370,15 +1449,6 @@ if has_telescope then
 			desc = "Quick Open File",
 		}
 	)
-
-	vim.keymap.set(
-		"n",
-		"<C-Shift-F>",
-		builtin.live_grep,
-		{
-			desc = "Search in Files",
-		}
-	)
 end
 
 vim.keymap.set(
@@ -1391,12 +1461,28 @@ vim.keymap.set(
 )
 
 -- ==========================================================================
--- VS CODE COMMENT & DUPLICATE SHORTCUTS
+-- VS CODE COMMENT SHORTCUTS
 -- ==========================================================================
 
 -- Comment / Uncomment (Ctrl + /)
-vim.keymap.set({ "n", "v" }, "<C-/>", "gcc", { remap = true, desc = "Toggle comment" })
-vim.keymap.set({ "n", "v" }, "<C-_>", "gcc", { remap = true, desc = "Toggle comment (terminal fallback)" })
+-- Mini.comment uses gL for a normal-mode line toggle and gC for
+-- operator/visual commenting, avoiding the gc/gcc prefix overlap.
+vim.keymap.set("n", "<C-/>", "gL", {
+	remap = true,
+	desc = "Toggle comment",
+})
+vim.keymap.set("v", "<C-/>", "gC", {
+	remap = true,
+	desc = "Toggle comment",
+})
+vim.keymap.set("n", "<C-_>", "gL", {
+	remap = true,
+	desc = "Toggle comment (terminal fallback)",
+})
+vim.keymap.set("v", "<C-_>", "gC", {
+	remap = true,
+	desc = "Toggle comment (terminal fallback)",
+})
 
 -- ==========================================================================
 -- 6. LSP SETUP & DIAGNOSTICS

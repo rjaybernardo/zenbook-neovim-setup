@@ -4,9 +4,9 @@
       "rev": "0abc8f390b278c3b4aabc4c004ac8a088b65cf24",
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
-    "VectorCode": {
-      "rev": "3eacce5ad1c8e439e7dbeab3a8d6bdb6b8aa1cab",
-      "src": "https://github.com/Davidyz/VectorCode"
+    "catppuccin": {
+      "rev": "edefef779ab08ce1a4a404713e3012b0d202bd35",
+      "src": "https://github.com/catppuccin/nvim"
     },
     "cmp-buffer": {
       "rev": "b74fab3656eea9de20a9b8116afa3cfc4ec09657",
@@ -23,14 +23,6 @@
     "cmp_luasnip": {
       "rev": "98d9cb5c2c38532bd9bdb481067b20fea8f32e90",
       "src": "https://github.com/saadparwaiz1/cmp_luasnip"
-    },
-    "codecompanion-spinners.nvim": {
-      "rev": "f613a543ca8c7ba1686830c6bb1a10d15a2e1942",
-      "src": "https://github.com/lalitmee/codecompanion-spinners.nvim"
-    },
-    "codecompanion.nvim": {
-      "rev": "5f8841d9ddc8cfdb202f84ae26b704beb4e14ce8",
-      "src": "https://github.com/olimorris/codecompanion.nvim"
     },
     "conform.nvim": {
       "rev": "016802de402556da54c36bd7359b441266b01cdd",
@@ -104,10 +96,6 @@
     "plenary.nvim": {
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
-    },
-    "render-markdown.nvim": {
-      "rev": "640a3ec6d538bad17c328be373c7cad0293d9589",
-      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "telescope.nvim": {
       "rev": "40aedd8a68c78a656a10a8d62d80c54af59420fb",
