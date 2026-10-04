@@ -101,6 +101,24 @@ ln -sfn ~/.config/nvim/niri ~/.config/niri
 
 Check it with `niri validate` after editing.
 
+**Noctalia (bar & shell):** the Noctalia config is in this repo at `noctalia/`, and the whole folder is linked as `~/.config/noctalia`:
+- `config.toml`: hand-written config.
+- `settings.toml`: your bar, widgets, theme and wallpaper, copied from what you set in Noctalia's settings window.
+
+Link it into place once:
+
+```sh
+ln -sfn ~/.config/nvim/noctalia ~/.config/noctalia
+```
+
+Changes made in Noctalia's settings window (`Mod+Shift+S`) are saved to `~/.local/state/noctalia/settings.toml`, not to the repo. To save them into the repo, copy that file over:
+
+```sh
+cp ~/.local/state/noctalia/settings.toml ~/.config/nvim/noctalia/settings.toml
+```
+
+The wallpaper image itself (`~/Pictures/uwp5093073.png`) isn't in the repo. Clipboard and notification history also stay out of the repo, because they live in the state folder.
+
 ---
 
 ## Files & navigation
@@ -335,6 +353,7 @@ ghostty/config            Ghostty config (symlinked to ~/.config/ghostty/config)
 starship/starship.toml    Starship prompt (symlinked to ~/.config/starship.toml)
 fastfetch/config.jsonc    fastfetch layout (symlinked to ~/.config/fastfetch/config.jsonc)
 niri/                     niri config (folder symlinked to ~/.config/niri)
+noctalia/                 Noctalia config + GUI settings (folder symlinked to ~/.config/noctalia)
 ```
 
 To use pure Vim keys again, remove `require("config.vscode")` from `init.lua`.
