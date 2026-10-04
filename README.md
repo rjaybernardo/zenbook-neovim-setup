@@ -12,12 +12,18 @@ A Neovim **0.12** setup that works like VS Code: VS Code shortcuts on top of nor
 
 Neovim only receives shortcuts like `Ctrl+Shift+P`, `Ctrl+.`, `Ctrl+Enter` and `` Ctrl+` `` if the terminal passes them through.
 
-**tmux:** add this to `~/.config/tmux/tmux.conf`, then restart tmux:
+**tmux:** the tmux config is in this repo at `tmux/tmux.conf`. It already turns on `extended-keys`, which passes those shortcuts through. Link it into place once, then reload tmux:
 
-```tmux
-set -s extended-keys on
-set -as terminal-features 'xterm-ghostty:extkeys'
+```sh
+mkdir -p ~/.config/tmux
+ln -sf ~/.config/nvim/tmux/tmux.conf ~/.config/tmux/tmux.conf
+tmux source-file ~/.config/tmux/tmux.conf
 ```
+
+It also sets up:
+- **Seamless navigation:** `Ctrl+H/J/K/L` moves between tmux panes and Neovim splits.
+- **Copy mode:** `Ctrl+B` then `Ctrl+Space`. It's on the prefix so that `Ctrl+Space` reaches Neovim for completion. In copy mode, `Ctrl+Space` starts a selection, and `y` or `Alt+W` copies to the system clipboard.
+- **Other:** mouse support and vi keys.
 
 **Ghostty:** Ghostty uses several `Ctrl+Shift` combos for its own features (splits, its command palette, the inspector). To let one through to Neovim, unbind it in Ghostty's config, for example:
 
@@ -198,6 +204,7 @@ lua/config/
   winbar.lua              breadcrumbs
 lua/plugins/              one file per plugin area (lsp, completion, git, …)
 lua/snippets/             snippet definitions + the in-process LSP that serves them
+tmux/tmux.conf            tmux config (symlinked to ~/.config/tmux/tmux.conf)
 ```
 
 To use pure Vim keys again, remove `require("config.vscode")` from `init.lua`.
