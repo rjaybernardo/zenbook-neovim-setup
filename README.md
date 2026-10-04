@@ -86,6 +86,13 @@ Every VS Code shortcut also has a leader-key or Vim equivalent below, so nothing
 ln -sf ~/.config/nvim/starship/starship.toml ~/.config/starship.toml
 ```
 
+**fastfetch:** the system info shown when a terminal opens comes from `fastfetch/config.jsonc` in this repo. It has no logo and shows title, OS, kernel, CPU, GPU, memory, disk, uptime and window manager. Link it into place once:
+
+```sh
+mkdir -p ~/.config/fastfetch
+ln -sf ~/.config/nvim/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
+```
+
 ---
 
 ## Files & navigation
@@ -286,6 +293,7 @@ lua/snippets/             snippet definitions + the in-process LSP that serves t
 tmux/tmux.conf            tmux config (symlinked to ~/.config/tmux/tmux.conf)
 ghostty/config            Ghostty config (symlinked to ~/.config/ghostty/config)
 starship/starship.toml    Starship prompt (symlinked to ~/.config/starship.toml)
+fastfetch/config.jsonc    fastfetch layout (symlinked to ~/.config/fastfetch/config.jsonc)
 ```
 
 To use pure Vim keys again, remove `require("config.vscode")` from `init.lua`.
