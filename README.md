@@ -8,6 +8,34 @@ A Neovim **0.12** setup that works like VS Code: VS Code shortcuts on top of nor
 
 ---
 
+## What changed (October 2026)
+
+These behave differently from the old setup. Everything else you knew still works the same way.
+
+| Before | Now |
+|---|---|
+| `Ctrl+B` scrolled up a page | Toggles the file sidebar (`Ctrl+U` still scrolls up half a page) |
+| `Ctrl+S` in insert mode showed parameter hints | Saves; parameter hints are on `Ctrl+Shift+Space` |
+| `gL` / `gC` commented code | Built-in `gcc` (line) / `gc` (motion or selection); `Ctrl+/` unchanged |
+| `gT` was taken by mini.comment | `gT` goes to the previous Vim tab page again |
+| `Ctrl+Space` in tmux entered copy mode | `Ctrl+B` then `Ctrl+Space` |
+| Long lines wrapped | No wrapping; `Alt+Z` toggles it |
+| New lines indented with tabs | 2 spaces (projects with `.editorconfig` use their own setting) |
+| Code files also suggested buffer words | Code files suggest language server results + snippets; plain files suggest buffer words |
+| nvim-cmp popup (`Ctrl+B` / `Ctrl+F` scrolled docs) | Built-in completion menu; docs show in a side popup |
+
+**New, nothing to unlearn:**
+- VS Code shortcuts (tables below)
+- `` Ctrl+` `` terminal panel
+- Breadcrumbs at the top of each window
+- Sticky scroll
+- `Space uu` undo tree
+- `Space uh` inlay hints
+- Files reload when changed outside Neovim
+- Files reopen at your last cursor position
+
+---
+
 ## Terminal setup (one-time)
 
 Neovim only receives shortcuts like `Ctrl+Shift+P`, `Ctrl+.`, `Ctrl+Enter` and `` Ctrl+` `` if the terminal passes them through.
@@ -188,6 +216,33 @@ To add snippets for another language, create `lua/snippets/<lang>.lua` and regis
 | `Space k` | Show all keymaps (which-key) | ≈ `Ctrl+K Ctrl+S` |
 | `Space ?` | List normal-mode mappings | — |
 | `ZR` | Restart Neovim and keep the session (0.12) | ≈ "Reload Window" |
+
+---
+
+## Shell (zsh) & tmux
+
+Your zsh is in **vi mode**: `Esc` switches the prompt to Vim normal mode, and `i` / `a` go back to typing.
+
+| Keys | Action |
+|---|---|
+| `↑` / `↓` | Search history for commands starting with what you've typed |
+| `Ctrl+←` / `Ctrl+→` | Jump a word left / right |
+| `Home` / `End` / `Delete` | Start of line / end of line / delete character |
+| `Tab` | Completion menu (move with arrow keys; matching ignores case) |
+| `→` at end of line | Accept the grey autosuggestion |
+| ` cmd` (leading space) | Run without saving to history |
+| `z <part of dir>` | Jump to a frequently used folder (zoxide) |
+| `v` | `nvim` |
+| `gs` / `ga` / `gc` / `gp` / `gl` | git status / add / commit / push / log graph |
+
+Commands turn green or red as you type, depending on whether they exist (syntax highlighting).
+
+| tmux keys | Action |
+|---|---|
+| `Ctrl+H/J/K/L` | Move between panes and Neovim splits |
+| `Ctrl+B` then `Ctrl+Space` | Copy mode |
+| `Ctrl+Space` (in copy mode) | Start selection |
+| `y` / `Alt+W` (in copy mode) | Copy to system clipboard |
 
 ---
 
