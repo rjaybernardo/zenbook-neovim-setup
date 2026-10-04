@@ -25,11 +25,29 @@ It also sets up:
 - **Copy mode:** `Ctrl+B` then `Ctrl+Space`. It's on the prefix so that `Ctrl+Space` reaches Neovim for completion. In copy mode, `Ctrl+Space` starts a selection, and `y` or `Alt+W` copies to the system clipboard.
 - **Other:** mouse support and vi keys.
 
-**Ghostty:** Ghostty uses several `Ctrl+Shift` combos for its own features (splits, its command palette, the inspector). To let one through to Neovim, unbind it in Ghostty's config, for example:
+**Ghostty:** the Ghostty config is in this repo at `ghostty/config`. Link it into place once:
+
+```sh
+mkdir -p ~/.config/ghostty
+ln -sf ~/.config/nvim/ghostty/config ~/.config/ghostty/config
+```
+
+By default Ghostty takes these shortcuts for itself, so Neovim never sees them:
+
+| Key | Ghostty default | Neovim (VS Code layer) |
+|---|---|---|
+| `Ctrl+Shift+P` | Ghostty command palette | Command palette |
+| `Ctrl+Shift+F` | Search scrollback | Search in files |
+| `Ctrl+Shift+E` / `Ctrl+Shift+O` | New split down / right | Focus explorer / Go to symbol |
+| `Ctrl+Shift+I` | Inspector | Format document |
+| `Ctrl+Tab` / `Ctrl+Shift+Tab` | Next / previous Ghostty tab | Next / previous tab |
+| `Ctrl+Enter` / `Ctrl+Shift+Enter` | Fullscreen / zoom split | Insert line below / above |
+| `Ctrl+,` | Open Ghostty config | Open Neovim config |
+
+To give a key to Neovim, add an `unbind` line for it to `ghostty/config`, for example:
 
 ```
 keybind = ctrl+shift+p=unbind
-keybind = ctrl+shift+e=unbind
 ```
 
 Every VS Code shortcut also has a leader-key or Vim equivalent below, so nothing is lost if a combo doesn't come through.
@@ -205,6 +223,7 @@ lua/config/
 lua/plugins/              one file per plugin area (lsp, completion, git, …)
 lua/snippets/             snippet definitions + the in-process LSP that serves them
 tmux/tmux.conf            tmux config (symlinked to ~/.config/tmux/tmux.conf)
+ghostty/config            Ghostty config (symlinked to ~/.config/ghostty/config)
 ```
 
 To use pure Vim keys again, remove `require("config.vscode")` from `init.lua`.
