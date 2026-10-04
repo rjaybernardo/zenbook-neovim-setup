@@ -26,12 +26,6 @@
    debug {
     // Allows notification actions and window activation from Noctalia.
     honor-xdg-activation-with-invalid-serial
-
-    // Use the AMD Radeon 780M for Niri rendering.
-    render-drm-device "/dev/dri/by-path/pci-0000:65:00.0-render"
-
-    // Don't let Niri open the NVIDIA RTX 4060.
-    ignore-drm-device "/dev/dri/by-path/pci-0000:01:00.0-render"
 }
 
     hotkey-overlay {
