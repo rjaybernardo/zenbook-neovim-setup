@@ -28,6 +28,28 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 	end,
 })
 
+-- Reload files changed outside Neovim (e.g. git checkout), like VS Code
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "TermClose" }, {
+	group = augroup("checktime"),
+	callback = function()
+		if vim.bo.buftype == "" then
+			vim.cmd.checktime()
+		end
+	end,
+})
+
+-- Reopen files at the last cursor position
+vim.api.nvim_create_autocmd("BufReadPost", {
+	group = augroup("last_position"),
+	callback = function(args)
+		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
+		local ft = vim.bo[args.buf].filetype
+		if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(args.buf) and ft ~= "gitcommit" then
+			pcall(vim.api.nvim_win_set_cursor, 0, mark)
+		end
+	end,
+})
+
 -- LazyGit: let <Esc> reach lazygit instead of leaving terminal mode
 vim.api.nvim_create_autocmd("TermOpen", {
 	group = augroup("lazygit_esc"),

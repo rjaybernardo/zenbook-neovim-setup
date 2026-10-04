@@ -17,6 +17,13 @@ opt.swapfile = false
 opt.undofile = true
 opt.updatetime = 250
 
+-- Indentation (VS Code defaults: spaces; .editorconfig overrides per project)
+opt.expandtab = true
+opt.shiftwidth = 2
+opt.tabstop = 2
+opt.softtabstop = 2
+opt.smartindent = true
+
 -- Folding (disabled)
 opt.foldenable = false
 opt.foldmethod = "manual"
@@ -31,7 +38,8 @@ opt.termguicolors = true
 opt.guicursor = "n-v-c-i:block"
 opt.winborder = "rounded"
 opt.pumheight = 10
-opt.completeopt = { "menu", "menuone", "noselect" }
+opt.wrap = false -- VS Code default; toggle with Alt+Z
+opt.mousemodel = "popup_setpos" -- right-click context menu
 
 -- VS Code-like splits / scrolling
 opt.splitbelow = true

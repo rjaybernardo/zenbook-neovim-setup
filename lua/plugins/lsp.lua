@@ -72,7 +72,7 @@ vim.diagnostic.config({
 })
 
 -- --------------------------------------------------------------------------
--- Navic (breadcrumbs). auto_attach picks one server per buffer, so
+-- Navic (breadcrumbs, rendered by config/winbar.lua). auto_attach picks one server per buffer, so
 -- multiple symbol providers (e.g. html + emmet) don't conflict.
 -- --------------------------------------------------------------------------
 
@@ -84,36 +84,17 @@ if ok_navic then
 			preference = { "vtsls" },
 		},
 		highlight = true,
-		separator = " > ",
+		separator = " › ",
 	})
 end
 
 -- --------------------------------------------------------------------------
--- LspAttach
--- --------------------------------------------------------------------------
-
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("user_lsp_attach", { clear = true }),
-	callback = function(args)
-		-- Neovim 0.11+ already provides grn, gra, grr, gri, gO, K, [d, ]d.
-		vim.keymap.set("n", "grt", vim.lsp.buf.type_definition, {
-			buffer = args.buf,
-			desc = "Go to type definition",
-		})
-	end,
-})
-
--- --------------------------------------------------------------------------
 -- Server configs
 -- --------------------------------------------------------------------------
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-local ok_cmp_lsp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
-if ok_cmp_lsp then
-	capabilities = cmp_lsp.default_capabilities(capabilities)
-end
-
-vim.lsp.config("*", { capabilities = capabilities })
+-- Built-in LSP keymaps (0.11+/0.12): K, grn rename, gra code action,
+-- grr references, gri implementation, grt type definition, gO symbols,
+-- grx codelens, [d / ]d diagnostics. :lsp manages clients.
+-- Default client capabilities already include snippet support.
 
 vim.lsp.config("lua_ls", {
 	settings = {
@@ -131,6 +112,14 @@ vim.lsp.config("lua_ls", {
 })
 
 vim.lsp.config("emmet_ls", {
+	-- emmet-ls advertises completionItem/resolve but doesn't implement it,
+	-- which prints "Unhandled method" while browsing the completion menu.
+	on_init = function(client)
+		local provider = client.server_capabilities.completionProvider
+		if provider then
+			provider.resolveProvider = false
+		end
+	end,
 	filetypes = {
 		"html",
 		"css",

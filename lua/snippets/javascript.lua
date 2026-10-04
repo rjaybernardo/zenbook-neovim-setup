@@ -1,66 +1,32 @@
 -- ==========================================================================
 -- CUSTOM JS / TS / REACT SNIPPETS
 -- ==========================================================================
-
-local ls = require("luasnip")
-local s = ls.snippet
-local i = ls.insert_node
-local fmt = require("luasnip.extras.fmt").fmt
-local rep = require("luasnip.extras").rep
+-- Bodies use LSP snippet syntax (expanded natively by vim.snippet):
+--   $1, $2   tabstops       ${1:text}   tabstop with placeholder
+--   $0       final cursor   repeating $1 mirrors the same text
 
 return {
-	-- Arrow function
-	s("af", fmt("({}) => {{\n  {}\n}}", { i(1, "args"), i(0) })),
+	af = { desc = "Arrow function", body = "(${1:args}) => {\n  $0\n}" },
+	caf = { desc = "Const arrow function", body = "const ${1:fnName} = (${2:args}) => {\n  $0\n};" },
+	afc = {
+		desc = "Async arrow function with try/catch",
+		body = "const ${1:fnName} = async (${2:args}) => {\n  try {\n    $0\n  } catch (error) {\n    console.error(error);\n  }\n};",
+	},
 
-	-- Const arrow function
-	s("caf", fmt("const {} = ({}) => {{\n  {}\n}};", { i(1, "fnName"), i(2, "args"), i(0) })),
+	ef = { desc = "Export function", body = "export function ${1:functionName}(${2:args}) {\n  $0\n}" },
+	eaf = { desc = "Export const arrow function", body = "export const ${1:functionName} = (${2:args}) => {\n  $0\n};" },
+	ec = { desc = "Export const", body = "export const ${1:name} = ${2:value};$0" },
+	edf = { desc = "Export default function", body = "export default function ${1:functionName}(${2:args}) {\n  $0\n}" },
 
-	-- Async arrow function with try/catch
-	s(
-		"afc",
-		fmt(
-			"const {} = async ({}) => {{\n  try {{\n    {}\n  }} catch (error) {{\n    console.error(error);\n  }}\n}};",
-			{ i(1, "fnName"), i(2, "args"), i(0) }
-		)
-	),
+	clg = { desc = "console.log labelled", body = 'console.log("${1:variable}", $1);$0' },
+	cle = { desc = "console.error labelled", body = 'console.error("${1:variable}", $1);$0' },
 
-	-- Export function
-	s("ef", fmt("export function {}({}) {{\n  {}\n}}", { i(1, "functionName"), i(2, "args"), i(0) })),
+	us = { desc = "useState", body = "const [${1:state}, set${2:State}] = useState(${3:null});$0" },
+	ue = { desc = "useEffect", body = "useEffect(() => {\n  $1\n}, [$2]);$0" },
+	ur = { desc = "useRef", body = "const ${1:refName} = useRef(${2:null});$0" },
 
-	-- Export const arrow function
-	s("eaf", fmt("export const {} = ({}) => {{\n  {}\n}};", { i(1, "functionName"), i(2, "args"), i(0) })),
-
-	-- Export const
-	s("ec", fmt("export const {} = {};", { i(1, "name"), i(0, "value") })),
-
-	-- Export default function
-	s("edf", fmt("export default function {}({}) {{\n  {}\n}}", { i(1, "functionName"), i(2, "args"), i(0) })),
-
-	-- console.log / console.error (label mirrors the variable)
-	s("clg", fmt('console.log("{}", {});', { rep(1), i(1, "variable") })),
-	s("cle", fmt('console.error("{}", {});', { rep(1), i(1, "variable") })),
-
-	-- React hooks
-	s("us", fmt("const [{}, set{}] = useState({});", { i(1, "state"), i(2, "State"), i(3, "null") })),
-	s("ue", fmt("useEffect(() => {{\n  {}\n}}, [{}]);", { i(1), i(2) })),
-	s("ur", fmt("const {} = useRef({});", { i(1, "refName"), i(2, "null") })),
-
-	-- React component
-	s(
-		"rafce",
-		fmt(
-			[[
-const {} = () => {{
-  return (
-    <div>
-      {}
-    </div>
-  );
-}};
-
-export default {};
-]],
-			{ i(1, "ComponentName"), i(0), rep(1) }
-		)
-	),
+	rafce = {
+		desc = "React arrow function component",
+		body = "const ${1:ComponentName} = () => {\n  return (\n    <div>\n      $0\n    </div>\n  );\n};\n\nexport default $1;",
+	},
 }

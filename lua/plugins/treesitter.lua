@@ -42,6 +42,12 @@ if ok then
 	})
 end
 
+-- Sticky scroll: keep the enclosing function/class header visible
+local ok_context, context = pcall(require, "treesitter-context")
+if ok_context then
+	context.setup({ max_lines = 3, trim_scope = "inner" })
+end
+
 local ok_autotag, autotag = pcall(require, "nvim-ts-autotag")
 if ok_autotag then
 	autotag.setup({

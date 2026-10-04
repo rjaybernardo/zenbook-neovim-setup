@@ -81,5 +81,21 @@ map("n", "<leader>q", function()
 	vim.diagnostic.setqflist()
 end, { desc = "Toggle quickfix diagnostics" })
 
+map("n", "<leader>uh", function()
+	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end, { desc = "Toggle inlay hints" })
+
+-- Comment toggle, VS Code style (native gc/gcc; <C-_> is what most terminals send)
+for _, lhs in ipairs({ "<C-/>", "<C-_>" }) do
+	map("n", lhs, "gcc", { remap = true, desc = "Toggle comment" })
+	map("v", lhs, "gc", { remap = true, desc = "Toggle comment" })
+end
+
+-- Built-in undo tree (0.12)
+map("n", "<leader>uu", function()
+	vim.cmd.packadd("nvim.undotree")
+	vim.cmd.Undotree()
+end, { desc = "Toggle undo tree" })
+
 -- Keymap listing
 map("n", "<leader>?", "<cmd>nmap<cr>", { desc = "List all normal-mode keymaps" })

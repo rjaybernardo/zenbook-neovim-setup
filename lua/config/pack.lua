@@ -1,6 +1,12 @@
 -- ==========================================================================
 -- PLUGINS (Neovim 0.12 native vim.pack)
 -- ==========================================================================
+-- Built in, so no plugin needed: completion + snippets (vim.lsp.completion,
+-- vim.snippet), commenting (gc/gcc), LSP config (vim.lsp.config/enable),
+-- treesitter incremental selection (v_an / v_in), :Undotree.
+--
+-- Removing a plugin from this list does not delete it from disk; run
+-- :lua vim.pack.del({ "name" }) for that.
 
 local gh = function(repo)
 	return "https://github.com/" .. repo
@@ -46,6 +52,7 @@ vim.pack.add({
 	-- Treesitter
 	gh("nvim-treesitter/nvim-treesitter"),
 	gh("windwp/nvim-ts-autotag"),
+	gh("nvim-treesitter/nvim-treesitter-context"), -- sticky scroll
 
 	-- Search / Git
 	gh("nvim-lua/plenary.nvim"),
@@ -53,23 +60,14 @@ vim.pack.add({
 	gh("lewis6991/gitsigns.nvim"),
 	gh("kdheepak/lazygit.nvim"),
 
-	-- Formatting / snippets
+	-- Formatting
 	gh("stevearc/conform.nvim"),
-	gh("L3MON4D3/LuaSnip"),
-	gh("rafamadriz/friendly-snippets"),
 
 	-- Live server
 	"https://git.barrettruth.com/barrettruth/live-server.nvim",
 
-	-- Mini (icons, comment, pairs, statusline, tabline, indentscope)
+	-- Mini (icons, pairs, statusline, tabline, indentscope)
 	gh("nvim-mini/mini.nvim"),
-
-	-- Completion
-	gh("hrsh7th/nvim-cmp"),
-	gh("hrsh7th/cmp-nvim-lsp"),
-	gh("hrsh7th/cmp-buffer"),
-	gh("hrsh7th/cmp-path"),
-	gh("saadparwaiz1/cmp_luasnip"),
 
 	-- UI
 	gh("SmiteshP/nvim-navic"),

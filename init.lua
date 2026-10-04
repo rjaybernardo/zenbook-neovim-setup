@@ -7,7 +7,9 @@
 require("config.options")
 require("config.pack")
 require("config.keymaps")
+require("config.vscode")
 require("config.autocmds")
+require("config.winbar")
 
 -- Each plugin module is loaded in isolation so one broken module
 -- doesn't take down the rest of the config.
@@ -19,10 +21,9 @@ local plugin_modules = {
 	"treesitter",
 	"git",
 	"conform",
-	"luasnip",
-	"cmp",
 	"telescope",
 	"lsp",
+	"completion",
 	"live-server",
 	"which-key", -- last, so it sees every mapping
 }
