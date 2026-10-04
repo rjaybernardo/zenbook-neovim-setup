@@ -93,6 +93,14 @@ mkdir -p ~/.config/fastfetch
 ln -sf ~/.config/nvim/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
 ```
 
+**niri (window manager):** the niri config is in this repo at `niri/` (`config.kdl` plus the files it includes from `cfg/`). The whole folder is linked, so the relative includes keep working. Link it into place once:
+
+```sh
+ln -sfn ~/.config/nvim/niri ~/.config/niri
+```
+
+Check it with `niri validate` after editing.
+
 ---
 
 ## Files & navigation
@@ -100,7 +108,8 @@ ln -sf ~/.config/nvim/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
 | Keys | Action | VS Code? |
 |---|---|---|
 | `Ctrl+P` | Quick open file | ✅ |
-| `Ctrl+Shift+P` / `F1` | Command palette | ✅ |
+| `F1` | Command palette | ✅ |
+| `Ctrl+Shift+P` | Command palette (niri uses this key for screenshots, so use `F1`) | ✅ |
 | `Ctrl+Shift+F` | Search in files (live grep) | ✅ |
 | `Ctrl+Shift+O` | Go to symbol in file | ✅ |
 | `Ctrl+Shift+M` | Problems (all diagnostics) | ✅ |
@@ -259,6 +268,37 @@ Commands turn green or red as you type, depending on whether they exist (syntax 
 
 ---
 
+## Desktop (niri)
+
+`Mod` is the Super / Windows key. Press `Mod+Shift+Esc` to see every binding.
+
+| Keys | Action |
+|---|---|
+| `Mod+Space` | App launcher |
+| `Mod+T` | Terminal (Ghostty) |
+| `Mod+G` / `Mod+E` / `Mod+D` | Chrome / Nautilus / Dolphin |
+| `Mod+N` / `Mod+F` / `Mod+K` / `Mod+B` | Obsidian / FreeCAD / Kdenlive / Blanket |
+| `Mod+Q` | Close window |
+| `Mod+←` / `Mod+→` | Focus column left / right |
+| `Mod+↑` / `Mod+↓` | Workspace up / down |
+| `Mod+Ctrl+←/→` (or `H`/`L`) | Move column left / right |
+| `Mod+Shift+↑/↓` | Move window to workspace up / down |
+| `Mod+1`…`9` / `Mod+Ctrl+1`…`9` | Go to workspace / move column there |
+| `Mod+Tab` | Previous workspace |
+| `Mod+R` / `Mod+Shift+R` | Cycle column width presets |
+| `Mod+-` / `Mod+=` | Column width −10% / +10% |
+| `Mod+X` / `Mod+Shift+F` / `Mod+Z` | Maximize column / fullscreen / maximize to edges |
+| `Mod+W` | Tabbed column |
+| `Mod+C` | Center column |
+| `Mod+O` | Overview |
+| `Mod+S` / `Mod+Shift+S` | Noctalia control center / settings |
+| `Mod+Alt+L` / `Mod+Shift+Q` | Lock / session menu |
+| `Ctrl+Shift+P` or `Ctrl+Shift+1` | Screenshot area |
+| `Ctrl+Shift+2` / `Ctrl+Shift+3` | Screenshot screen / window |
+| `Mod+Esc` | Emergency: un-inhibit shortcuts |
+
+---
+
 ## Useful commands
 
 | Command | What it does |
@@ -294,6 +334,7 @@ tmux/tmux.conf            tmux config (symlinked to ~/.config/tmux/tmux.conf)
 ghostty/config            Ghostty config (symlinked to ~/.config/ghostty/config)
 starship/starship.toml    Starship prompt (symlinked to ~/.config/starship.toml)
 fastfetch/config.jsonc    fastfetch layout (symlinked to ~/.config/fastfetch/config.jsonc)
+niri/                     niri config (folder symlinked to ~/.config/niri)
 ```
 
 To use pure Vim keys again, remove `require("config.vscode")` from `init.lua`.
