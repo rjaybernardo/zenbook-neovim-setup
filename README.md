@@ -80,6 +80,12 @@ keybind = ctrl+shift+p=unbind
 
 Every VS Code shortcut also has a leader-key or Vim equivalent below, so nothing is lost if a combo doesn't come through.
 
+**Starship (prompt):** the prompt config is in this repo at `starship/starship.toml`. It's a minimal Pure-style prompt: path, git branch and status, command duration, and a `❯` that turns red after an error and becomes a green `❮` in zsh's vi normal mode. Link it into place once:
+
+```sh
+ln -sf ~/.config/nvim/starship/starship.toml ~/.config/starship.toml
+```
+
 ---
 
 ## Files & navigation
@@ -279,6 +285,7 @@ lua/plugins/              one file per plugin area (lsp, completion, git, …)
 lua/snippets/             snippet definitions + the in-process LSP that serves them
 tmux/tmux.conf            tmux config (symlinked to ~/.config/tmux/tmux.conf)
 ghostty/config            Ghostty config (symlinked to ~/.config/ghostty/config)
+starship/starship.toml    Starship prompt (symlinked to ~/.config/starship.toml)
 ```
 
 To use pure Vim keys again, remove `require("config.vscode")` from `init.lua`.
