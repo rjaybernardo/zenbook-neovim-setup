@@ -12,7 +12,8 @@ local gh = function(repo)
 	return "https://github.com/" .. repo
 end
 
--- Keep nvim-treesitter parsers in sync with plugin updates.
+-- Keep nvim-treesitter parsers in sync with plugin updates, and build
+-- telescope-fzf-native's C library after install/update.
 -- Must be registered before vim.pack.add() so it fires on first install.
 vim.api.nvim_create_autocmd("PackChanged", {
 	group = vim.api.nvim_create_augroup("user_pack_changed", { clear = true }),
@@ -27,6 +28,16 @@ vim.api.nvim_create_autocmd("PackChanged", {
 				vim.cmd.packadd("nvim-treesitter")
 			end
 			vim.cmd("TSUpdate")
+		end
+
+		if data.spec.name == "telescope-fzf-native.nvim" and (data.kind == "install" or data.kind == "update") then
+			vim.system({ "make" }, { cwd = data.path }, function(result)
+				if result.code ~= 0 then
+					vim.schedule(function()
+						vim.notify("telescope-fzf-native build failed:\n" .. result.stderr, vim.log.levels.ERROR)
+					end)
+				end
+			end)
 		end
 	end,
 })
@@ -57,6 +68,7 @@ vim.pack.add({
 	-- Search / Git
 	gh("nvim-lua/plenary.nvim"),
 	gh("nvim-telescope/telescope.nvim"),
+	gh("nvim-telescope/telescope-fzf-native.nvim"), -- faster sorting
 	gh("lewis6991/gitsigns.nvim"),
 	gh("kdheepak/lazygit.nvim"),
 

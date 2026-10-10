@@ -48,13 +48,13 @@ conform.setup({
 		json = prettier,
 		markdown = prettier,
 		liquid = { "prettier_liquid" },
+		lua = { "stylua" }, -- :MasonInstall stylua; settings in stylua.toml
 	},
 
 	formatters = {
 		prettier_liquid = {
 			command = function(_, ctx)
-				return vim.fs.find("node_modules/.bin/prettier", { path = ctx.dirname, upward = true })[1]
-					or "prettier"
+				return vim.fs.find("node_modules/.bin/prettier", { path = ctx.dirname, upward = true })[1] or "prettier"
 			end,
 			args = function(_, ctx)
 				local args = { "--stdin-filepath", ctx.filename, "--parser", "liquid-html" }

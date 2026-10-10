@@ -4,6 +4,8 @@
 
 -- Servers to enable. Mason installs all of these except vtsls and
 -- shopify_theme_ls, which are installed separately (npm / Shopify CLI).
+-- bashls runs shellcheck automatically when it's installed
+-- (:MasonInstall shellcheck).
 local servers = {
 	"lua_ls",
 	"basedpyright",
@@ -15,6 +17,7 @@ local servers = {
 	"emmet_ls",
 	"shopify_theme_ls",
 	"tailwindcss",
+	"bashls",
 }
 
 local mason_servers = {
@@ -26,6 +29,7 @@ local mason_servers = {
 	"jsonls",
 	"eslint",
 	"tailwindcss",
+	"bashls",
 }
 
 -- --------------------------------------------------------------------------

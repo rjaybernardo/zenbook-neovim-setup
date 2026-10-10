@@ -8,6 +8,7 @@ if not ok then
 end
 
 telescope.setup({})
+pcall(telescope.load_extension, "fzf") -- only if the C library has been built
 
 local builtin = require("telescope.builtin")
 local map = vim.keymap.set

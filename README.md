@@ -322,7 +322,7 @@ Commands turn green or red as you type, depending on whether they exist (syntax 
 | `Mod+O` | Overview |
 | `Mod+S` / `Mod+Shift+S` | Noctalia control center / settings |
 | `Mod+Alt+L` / `Mod+Shift+Q` | Lock / session menu |
-| `Ctrl+Shift+P` or `Ctrl+Shift+1` | Screenshot area |
+| `Ctrl+Shift+1` | Screenshot area (`Ctrl+Shift+P` is left free for the command palette) |
 | `Ctrl+Shift+2` / `Ctrl+Shift+3` | Screenshot screen / window |
 | `Mod+Esc` | Emergency: un-inhibit shortcuts |
 
@@ -359,6 +359,7 @@ lua/config/
   winbar.lua              breadcrumbs
 lua/plugins/              one file per plugin area (lsp, completion, git, …)
 lua/snippets/             snippet definitions + the in-process LSP that serves them
+stylua.toml               Lua formatting rules (format on save via conform)
 tmux/tmux.conf            tmux config (symlinked to ~/.config/tmux/tmux.conf)
 ghostty/config            Ghostty config (symlinked to ~/.config/ghostty/config)
 starship/starship.toml    Starship prompt (symlinked to ~/.config/starship.toml)
@@ -372,4 +373,4 @@ To use pure Vim keys again, remove `require("config.vscode")` from `init.lua`.
 
 **Built in, no plugin needed:** plugin manager, LSP setup, completion, snippets, commenting, syntax-aware selection, undo tree, inline color previews.
 
-**Plugins:** catppuccin, oil, neo-tree, telescope, gitsigns, lazygit, conform, nvim-treesitter (+ context, autotag), mason, nvim-lspconfig, mini (icons, pairs, statusline, tabline, indentscope), navic, which-key, vim-visual-multi, vim-tmux-navigator, live-server.
+**Plugins:** catppuccin, oil, neo-tree, telescope (+ fzf-native), gitsigns, lazygit, conform, nvim-treesitter (+ context, autotag), mason, nvim-lspconfig, mini (icons, pairs, statusline, tabline, indentscope), navic, which-key, vim-visual-multi, vim-tmux-navigator, live-server.

@@ -57,7 +57,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 
 		local provider = client.server_capabilities.completionProvider
-		provider.triggerCharacters = vim.list.unique(vim.list_extend(vim.deepcopy(provider.triggerCharacters or {}), word_chars))
+		provider.triggerCharacters =
+			vim.list.unique(vim.list_extend(vim.deepcopy(provider.triggerCharacters or {}), word_chars))
 
 		vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true, convert = convert, cmp = compare })
 

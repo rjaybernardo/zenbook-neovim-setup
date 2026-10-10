@@ -47,6 +47,14 @@ opt.splitright = true
 opt.scrolloff = 8
 opt.sidescrolloff = 8
 
+-- Node tools (prettier, vtsls) come from fnm, which only adds them to PATH
+-- inside a shell. Add fnm's default Node so they work when Neovim is
+-- started from a launcher too.
+local fnm_bin = vim.fn.expand("~/.local/share/fnm/aliases/default/bin")
+if not vim.env.PATH:find("fnm", 1, true) and vim.uv.fs_stat(fnm_bin) then
+	vim.env.PATH = vim.env.PATH .. ":" .. fnm_bin
+end
+
 -- Skip unused remote-plugin providers (faster startup)
 vim.g.loaded_node_provider = 0
 vim.g.loaded_python3_provider = 0

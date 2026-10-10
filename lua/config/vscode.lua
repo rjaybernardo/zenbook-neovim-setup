@@ -27,7 +27,12 @@ map("n", "<F1>", telescope("commands"), { desc = "Command palette" })
 map("n", "<C-S-f>", telescope("live_grep"), { desc = "Search in files" })
 map("n", "<C-S-o>", telescope("lsp_document_symbols"), { desc = "Go to symbol in file" })
 map("n", "<C-S-m>", telescope("diagnostics"), { desc = "Problems" })
-map("n", "<C-,>", telescope("find_files", { cwd = vim.fn.stdpath("config") }), { desc = "Open settings (Neovim config)" })
+map(
+	"n",
+	"<C-,>",
+	telescope("find_files", { cwd = vim.fn.stdpath("config") }),
+	{ desc = "Open settings (Neovim config)" }
+)
 
 map("n", "<C-b>", "<cmd>Neotree toggle<cr>", { desc = "Toggle sidebar" })
 map("n", "<C-S-e>", "<cmd>Neotree focus reveal<cr>", { desc = "Focus explorer" })
@@ -91,9 +96,7 @@ end, { desc = "Previous problem" })
 local term_buf
 
 local function term_alive(buf)
-	return buf
-		and vim.api.nvim_buf_is_valid(buf)
-		and vim.fn.jobwait({ vim.bo[buf].channel }, 0)[1] == -1
+	return buf and vim.api.nvim_buf_is_valid(buf) and vim.fn.jobwait({ vim.bo[buf].channel }, 0)[1] == -1
 end
 
 local function toggle_terminal()

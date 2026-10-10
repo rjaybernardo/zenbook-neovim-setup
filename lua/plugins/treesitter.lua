@@ -8,6 +8,7 @@ if ok then
 		install_dir = vim.fn.stdpath("data") .. "/site",
 	})
 
+	-- stylua: ignore
 	local languages = {
 		"lua", "vim", "bash", "regex",
 		"markdown", "markdown_inline",
