@@ -119,6 +119,17 @@ cp ~/.local/state/noctalia/settings.toml ~/.config/nvim/noctalia/settings.toml
 
 The wallpaper image itself (`~/Pictures/uwp5093073.png`) isn't in the repo. Clipboard and notification history also stay out of the repo, because they live in the state folder.
 
+**Login screen (SDDM):** the theme is in this repo at `sddm/zenbook/`. It shows the wallpaper with a big clock. Press any key (or just start typing your password) and the background blurs and the sign-in form appears. The session switcher (`niri`) and the suspend / restart / power buttons are in the bottom right. `Esc` clears the password and goes back to the clock.
+
+SDDM can't read your home folder, so the theme is copied rather than linked. Run this once, and again after editing the theme:
+
+```sh
+sudo ~/.config/nvim/sddm/install.sh                     # uses the Noctalia wallpaper
+sudo ~/.config/nvim/sddm/install.sh ~/Pictures/other.jpg  # or pick another image
+```
+
+Preview it without logging out: `sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/zenbook`. Colors, font and clock format are in `sddm/zenbook/theme.conf` (`clockFormat=h:mm AP` for a 12-hour clock). The script backs up the old config to `/etc/sddm.conf.bak`. To go back to the old theme, set `Current=elarun` in `/etc/sddm.conf`.
+
 ---
 
 ## Files & navigation
@@ -354,6 +365,7 @@ starship/starship.toml    Starship prompt (symlinked to ~/.config/starship.toml)
 fastfetch/config.jsonc    fastfetch layout (symlinked to ~/.config/fastfetch/config.jsonc)
 niri/                     niri config (folder symlinked to ~/.config/niri)
 noctalia/                 Noctalia config + GUI settings (folder symlinked to ~/.config/noctalia)
+sddm/                     login screen theme + install script (copied to /usr/share/sddm/themes)
 ```
 
 To use pure Vim keys again, remove `require("config.vscode")` from `init.lua`.
