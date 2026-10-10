@@ -1,13 +1,6 @@
     window-rule {
-        geometry-corner-radius 8	// Set every window radius to 20
+        geometry-corner-radius 8 // Round every window's corners (8px)
         clip-to-geometry true
-    }
-
-    window-rule {
-        background-effect {
-          blur true
-          xray false
-        }
     }
 
     // Floating Noctalia settings window.
@@ -47,7 +40,7 @@
 // FreeCAD: behave like a normal desktop application.
 window-rule {
     match app-id="org.freecad.FreeCAD"
-     open-floating true
+    open-floating true
     open-maximized false
     open-fullscreen false
 }
